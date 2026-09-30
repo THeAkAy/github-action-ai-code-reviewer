@@ -20,9 +20,13 @@ _Avoid_: Patch, changeset
 The standards every Review applies whatever the language — a strict maintainability bar (adapted from Cursor's thermo-nuclear code quality review) plus obvious correctness bugs.
 _Avoid_: Prompt, checklist
 
-**Language Profile**:
-The rules specific to one programming language (e.g. C# nullable reference types, `async void`) that a Review adds to the Review Rubric for files in that language. It comes from the Action's built-in rules and the reviewed repo's own configuration, with the repo's rules winning.
-_Avoid_: Language pack, ruleset
+**Review Skill**:
+A named set of review rules for one concern, such as a language ("C# general"), a framework ("EF Core queries") or a kind of change ("public API changes"). The reviewed repo's team writes it, not the Action. A Review adds the Review Skills that apply to the Review Rubric. When none apply, the Review uses the Review Rubric plus the model's general knowledge of the language.
+_Avoid_: Language Profile, skill (on its own), ruleset
+
+**Skill Router**:
+The step that decides which Review Skills apply to a pull request, based on what the Diff actually does rather than only on file extensions.
+_Avoid_: Selector, classifier
 
 **Severity**:
 How serious a Review Comment's finding is: `blocker` (very likely a bug, or will break something), `major` (a design problem the Review Rubric pushes back on), or `minor` (worth fixing, not urgent). Style nitpicks have no Severity because they're never reported.
