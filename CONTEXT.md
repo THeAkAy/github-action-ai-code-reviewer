@@ -23,3 +23,7 @@ _Avoid_: Prompt, checklist
 **Language Profile**:
 The rules specific to one programming language (e.g. C# nullable reference types, `async void`) that a Review adds to the Review Rubric for files in that language. It comes from the Action's built-in rules and the reviewed repo's own configuration, with the repo's rules winning.
 _Avoid_: Language pack, ruleset
+
+**Severity**:
+How serious a Review Comment's finding is: `blocker` (very likely a bug, or will break something), `major` (a design problem the Review Rubric pushes back on), or `minor` (worth fixing, not urgent). Style nitpicks have no Severity because they're never reported.
+_Avoid_: Priority, level, nit
