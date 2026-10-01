@@ -1,0 +1,16 @@
+name: AI Code Reviewer
+description: Reviews a pull request's Diff with an LLM and posts the result as a formal Review.
+author: THeAkAy
+
+inputs:
+  openrouter-api-key:
+    description: OpenRouter API key. Use a dedicated key with a credit limit.
+    required: true
+  github-token:
+    description: Token used to read the pull request and post the Review.
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: node24
+  main: dist/index.js
