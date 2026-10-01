@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "bundle": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --outfile=dist/index.js --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\"",
     "build": "npm run typecheck && npm run bundle",
-    "test": "vitest run"
+    "test": "vitest run",
+    "local": "npm run build && scripts/run-local.sh"
   },
   "license": "MIT",
   "dependencies": {
