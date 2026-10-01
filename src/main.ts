@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { parseHunkHeader } from "./diff.js";
+import { numberDiffLines, parseHunkHeader } from "./diff.js"
 
 export async function run(): Promise<void> {
   try {
@@ -31,7 +31,7 @@ export async function run(): Promise<void> {
       throw new Error(`Expected the PR Diff from GitHub as text, got ${typeof diff}`);
     }
 
-    core.info(diff);
+    core.info(numberDiffLines(diff));
   } catch (error) {
     core.setFailed(error instanceof Error ? error.message : String(error));
   }

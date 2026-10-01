@@ -24460,6 +24460,43 @@ function getOctokit(token, options, ...additionalPlugins) {
   return new GitHubWithPlugins(getOctokitOptions(token, options));
 }
 
+// src/diff.ts
+var HUNK_HEADER = /^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@/;
+function parseHunkHeader(line) {
+  const match = line.match(HUNK_HEADER);
+  if (match === null) {
+    return null;
+  }
+  const newStart = match[1];
+  if (newStart === void 0) {
+    return null;
+  }
+  return Number(newStart);
+}
+var NUMBER_WIDTH = 5;
+function numberDiffLines(diff) {
+  const output = [];
+  let lineNumber = null;
+  for (const line of diff.split("\n")) {
+    if (line.startsWith("diff --git ")) {
+      lineNumber = null;
+    }
+    const hunkStart = parseHunkHeader(line);
+    if (hunkStart !== null) {
+      lineNumber = hunkStart;
+      output.push(" ".repeat(NUMBER_WIDTH) + " " + line);
+      continue;
+    }
+    if (lineNumber !== null && (line.startsWith(" ") || line.startsWith("+"))) {
+      output.push(String(lineNumber).padStart(NUMBER_WIDTH) + " " + line);
+      lineNumber = lineNumber + 1;
+      continue;
+    }
+    output.push(" ".repeat(NUMBER_WIDTH) + " " + line);
+  }
+  return output.join("\n");
+}
+
 // src/main.ts
 async function run() {
   try {
@@ -24484,7 +24521,7 @@ async function run() {
     if (typeof diff !== "string") {
       throw new Error(`Expected the PR Diff from GitHub as text, got ${typeof diff}`);
     }
-    info(diff);
+    info(numberDiffLines(diff));
   } catch (error2) {
     setFailed(error2 instanceof Error ? error2.message : String(error2));
   }
