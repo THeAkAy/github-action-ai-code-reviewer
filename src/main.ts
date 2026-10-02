@@ -1,6 +1,7 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { numberDiffLines, parseHunkHeader } from "./diff.js"
+import { askModel } from "./openrouter.js";
 
 export async function run(): Promise<void> {
   try {
@@ -31,7 +32,14 @@ export async function run(): Promise<void> {
       throw new Error(`Expected the PR Diff from GitHub as text, got ${typeof diff}`);
     }
 
-    core.info(numberDiffLines(diff));
+    const numbered = numberDiffLines(diff);
+    core.info(numbered);
+    const review = await askModel(
+      apiKey,
+      "You are a code reviewer. Review this pull request Diff. Each line starts with its line number in the new file. Point out problems and give their line numbers. Be brief.",
+      numbered,
+    );
+    core.info(review);
   } catch (error) {
     core.setFailed(error instanceof Error ? error.message : String(error));
   }

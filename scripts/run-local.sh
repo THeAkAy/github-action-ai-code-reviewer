@@ -6,6 +6,11 @@ set -euo pipefail
 repo="${1:-THeAkAy/ai-review-prototype-scratch}"
 pr="${2:-1}"
 
+key_file=".secrets/openrouter-key"
+if [[ -z "${OPENROUTER_API_KEY:-}" && -s "$key_file" ]]; then
+  OPENROUTER_API_KEY="$(tr -d '[:space:]' < "$key_file")"
+fi
+
 event_file="$(mktemp)"
 trap 'rm -f "$event_file"' EXIT
 printf '{"pull_request":{"number":%s}}\n' "$pr" > "$event_file"
