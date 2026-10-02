@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { numberDiffLines, parseHunkHeader } from "./diff.js"
+import { numberDiffLines, parseHunkHeader } from "./diff.js";
 import { askModel } from "./openrouter.js";
 
 export async function run(): Promise<void> {
