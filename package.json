@@ -13,8 +13,8 @@
     "build": "npm run typecheck && npm run bundle",
     "test": "vitest run",
     "local": "npm run build && scripts/run-local.sh",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .git/info/exclude",
+    "format:check": "prettier --check . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .git/info/exclude"
   },
   "license": "MIT",
   "dependencies": {
